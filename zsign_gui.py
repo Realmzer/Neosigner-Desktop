@@ -77,6 +77,8 @@ class ZsignGUI:
                 "Zsign binary is required to run this application. Please compile it according to the README instructions.")
     
     def find_ideviceinstaller(self):
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+
         """Find ideviceinstaller binary for easy installation to device"""
         if sys.platform == "darwin":
             # Check common paths on macOS
@@ -101,6 +103,11 @@ class ZsignGUI:
                         return path
             except:
                 pass
+
+        elif sys.platform == "win32":
+            paths = [
+                os.path.join(base_dir, "libimobiledevice-windows", "ideviceinstaller.exe"),
+            ]
         
         return None
     

@@ -39,6 +39,7 @@ Icon
 
 # Windows Specific
 zsign-windows/
+libimobiledevice-windows/
 
 # IDE specific files
 .idea/
