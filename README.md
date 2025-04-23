@@ -13,7 +13,7 @@ A user-friendly GUI wrapper for zsign and ideviceinstaller, making iOS app sidel
 - Support for macOS, coming soon for Windows/Linux
 
 ## Requirements
-
+- Windows 10+ (YMMV on Windows 7+)
 - macOS 10.15+ (Catalina or newer)
 - Python 3.6 or newer
 - Internet connection for initial setup
