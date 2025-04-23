@@ -173,11 +173,13 @@ class ZsignGUI:
             paths = [
                 os.path.join(base_dir, "bin", "zsign.exe"),
                 os.path.join(base_dir, "build", "windows", "vs2022", "x64", "Release", "zsign.exe"),
-                os.path.join(base_dir, "zsign.exe")
+                os.path.join(base_dir, "zsign.exe"),
+                os.path.join(base_dir, "zsign-windows", "zsign.exe")
             ]
         else:
             # Unknown platform
             return None
+            print(f"Platform could not be identified!")
         
         # Print search paths to output for debugging
         print(f"Searching for zsign binary in the following paths:")

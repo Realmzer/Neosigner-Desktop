@@ -37,6 +37,9 @@ Icon
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
 
+# Windows Specific
+zsign-windows/
+
 # IDE specific files
 .idea/
 .vscode/
