@@ -1,4 +1,4 @@
-# Quick Start Guide for iPASideloader
+# Quick Start Guide for NeoSigner Desktop Windows
 
 This guide will help you get up and running with iPASideloader quickly.
 
@@ -8,13 +8,11 @@ This guide will help you get up and running with iPASideloader quickly.
 
     Run the setup script:
     ```bash
-    ./setup.sh
+    setup.bat
     ```
     
     This will install all required dependencies:
-    - Homebrew (if needed)
-    - pkg-config, openssl, minizip
-    - ideviceinstaller
+    - ideviceinstaller & libimobiledevice
     - zsign (compiled from source)
 
 2. **Verify Installation**
@@ -84,8 +82,8 @@ This guide will help you get up and running with iPASideloader quickly.
 ### Common errors
 
 1. **"zsign binary not found"**:
-   - Run `./setup.sh` again
-   - Make sure zsign was compiled correctly in `./bin/zsign`
+   - Run `setup.bat` again
+   - Make sure zsign was compiled correctly in `zsign-windows/zsign.exe`
 
 2. **"Certificate file not found"**:
    - Make sure your .p12 file path is correct
@@ -96,6 +94,6 @@ This guide will help you get up and running with iPASideloader quickly.
    - Ensure the file exists and has proper permissions
 
 4. **"No iOS device found"**:
-   - Reconnect your device
-   - Trust the computer on your device
-   - Install/reinstall libimobiledevice: `brew reinstall libimobiledevice` 
+   - Reconnect your device and trust the computer
+   - Try running the setup.bat script again
+   - Restart your computer and iOS device

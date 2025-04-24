@@ -1,6 +1,8 @@
-# Neosigner-Desktop (DO NOT FOLLOW THIS README; IT IS OUTDATED, USE THE WORKFLOW BUILD)
+# Neosigner-Desktop
 
 A user-friendly GUI wrapper for zsign and ideviceinstaller, making iOS app sideloading simpler for everyone.
+
+Forked for Windows support.
 
 ## Features
 
@@ -8,13 +10,12 @@ A user-friendly GUI wrapper for zsign and ideviceinstaller, making iOS app sidel
 - One-click signing with custom certificates
 - Bundle ID and app name modification
 - Dylib injection support
-- Direct installation to connected iOS devices
+- Direct installation to connected iOS devices | Coming soon
 - Ad-hoc signing support
-- Support for macOS, coming soon for Windows/Linux
+- Support for macOS & Windows, coming soon for Linux
 
 ## Requirements
 - Windows 10+ (YMMV on Windows 7+)
-- macOS 10.15+ (Catalina or newer)
 - Python 3.6 or newer
 - Internet connection for initial setup
 
@@ -22,44 +23,29 @@ A user-friendly GUI wrapper for zsign and ideviceinstaller, making iOS app sidel
 
 ### Option 1: Download Release
 
-1. Download the latest release from the [Releases](https://github.com/neoarz/iPASideloader/releases) page
+1. Download the latest release from the [Releases](https://github.com/Realmzer/Neosigner-Desktop-Windows) page
 2. Extract the ZIP file
-3. Run the setup script to install dependencies: `./setup.sh`
+3. Run the setup script to install dependencies: `setup.bat`
 4. Launch the app: `python zsign_gui.py`
 
 ### Option 2: Clone from Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/neoarz/iPASideloader.git
-cd iPASideloader
+git clone https://github.com/Realmzer/Neosigner-Desktop-Windows.git
+cd Neosigner-Desktop-Windows
 
 # Install dependencies
-./setup.sh
+setup.bat
 
 # Run the app
-python3 zsign_gui.py
+python zsign_gui.py
 ```
 
 ## Setting Up Dependencies
 
 iPASideloader requires zsign and ideviceinstaller to function. The setup script will install these automatically, or you can install them manually:
 
-### Installing zsign
-
-```bash
-brew install pkg-config openssl minizip
-git clone https://github.com/zhlynn/zsign.git
-cd zsign/build/macos
-make clean && make
-sudo cp zsign /usr/local/bin/
-```
-
-### Installing ideviceinstaller
-
-```bash
-brew install ideviceinstaller
-```
 
 ## Usage
 
@@ -67,7 +53,7 @@ brew install ideviceinstaller
    - Run `python zsign_gui.py` in  terminal
 
 2. **Sign an IPA**
-   - Drag and drop  IPA file into the app
+   - Drag and drop IPA file into the app
    - Select  signing certificate and provisioning profile
    - Adjust settings as needed (bundle ID, app name, etc.)
    - Click "Sign"
@@ -99,7 +85,7 @@ brew install ideviceinstaller
 ### Device Not Detected
 
 - Reconnect your device and trust the computer
-- Install/reinstall libimobiledevice: `brew reinstall libimobiledevice`
+- Try running the setup.bat script again
 - Restart your computer and iOS device
 
 ## Contributing
@@ -113,14 +99,10 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 5. Open a Pull Request
 
 ## Credits
-
+- [Neosigner Desktop](https://github.com/neoarz/Neosigner-Desktop) - Original Mac version
 - [zsign](https://github.com/zhlynn/zsign) - The core signing tool
 - [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice) - iOS communication library
 - [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller) - App installation tool
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Disclaimer
 
