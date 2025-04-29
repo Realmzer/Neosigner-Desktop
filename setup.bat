@@ -92,6 +92,10 @@ echo Done!
 echo Files extracted to %LIBIMOBILEDEVICE_EXTRACT_TO%.
 
 echo Installing Python dependencies...
-pip3 install -r requirements.txt
+if exist requirements.txt (
+    pip install -r requirements.txt
+) else (
+    pip install pyinstaller pillow
+)
 
 echo Setup complete. You can now run iPASideloader with: python zsign_gui.py
