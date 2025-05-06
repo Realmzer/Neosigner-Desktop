@@ -642,4 +642,5 @@ class ZsignGUI:
 if __name__ == "__main__":
     root = tk.Tk()
     app = ZsignGUI(root)
+    root.iconbitmap('assets/Icon.ico')
     root.mainloop() 

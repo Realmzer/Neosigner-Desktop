@@ -22,6 +22,7 @@ var/
 .env
 venv/
 ENV/
+*.spec
 
 # macOS specific
 .DS_Store

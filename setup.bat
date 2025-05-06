@@ -95,7 +95,8 @@ echo Installing Python dependencies...
 if exist requirements.txt (
     pip install -r requirements.txt
 ) else (
-    pip install pyinstaller pillow
+    pip install pillow
+    pip install pyinstaller
 )
 
 echo Setup complete. You can now run iPASideloader with: python zsign_gui.py

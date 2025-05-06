@@ -8,13 +8,11 @@ echo "======================="
 echo "This script will install the necessary dependencies for iPASideloader"
 echo
 
-# Check if running on macOS
 if [[ "$OSTYPE" != "darwin"* ]]; then
   echo "❌ Error: This script is only compatible with macOS"
   exit 1
 fi
 
-# Check if brew is installed
 if ! command -v brew &>/dev/null; then
   echo "🍺 Homebrew is not installed. Installing now..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -27,7 +25,6 @@ else
   echo "✅ Homebrew already installed"
 fi
 
-# Check if Python 3 is installed
 if ! command -v python3 &>/dev/null; then
   echo "🐍 Python 3 is not installed. Installing now..."
   brew install python
@@ -40,7 +37,6 @@ else
   echo "✅ Python 3 already installed"
 fi
 
-# Check if pip3 is installed
 if ! command -v pip3 &>/dev/null; then
   echo "📦 pip3 is not installed. Installing now..."
   curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
@@ -55,26 +51,23 @@ else
   echo "✅ pip3 already installed"
 fi
 
-# Install Python dependencies
 echo "🐍 Installing Python dependencies..."
 if [ -f requirements.txt ]; then
   pip3 install -r requirements.txt
 else
-  # Install minimal required packages if no requirements.txt
-  pip3 install pyinstaller pillow
+  pip3 install pillow
+  pip3 install pyinstaller
+
 fi
 
-# Install dependencies via brew
 echo "🔄 Updating Homebrew..."
 brew update
 
 echo "📦 Installing basic dependencies..."
 brew install pkg-config openssl minizip
 
-# Install libimobiledevice and ideviceinstaller
 echo "📱 Installing libimobiledevice and ideviceinstaller..."
 
-# Try installing from Homebrew first
 if brew list --formula | grep -q "^libimobiledevice$"; then
   echo "✅ libimobiledevice already installed"
 else
@@ -82,23 +75,18 @@ else
   brew install libimobiledevice
 fi
 
-# Check if ideviceinstaller is already installed
 if command -v ideviceinstaller &>/dev/null; then
   echo "✅ ideviceinstaller already installed"
 else
   echo "Installing ideviceinstaller..."
-  # First try the Homebrew formula if it exists
   if brew list --formula | grep -q "^ideviceinstaller$"; then
     echo "Using Homebrew formula for ideviceinstaller"
     brew install ideviceinstaller
   else
-    # If the formula doesn't exist, try installing from source
     echo "Homebrew formula for ideviceinstaller not found, installing from source..."
     
-    # Install libimobiledevice dependencies
     brew install libtool autoconf automake libplist libzip
 
-    # Clone and install ideviceinstaller
     git clone https://github.com/libimobiledevice/ideviceinstaller.git
     cd ideviceinstaller
     ./autogen.sh
@@ -109,7 +97,6 @@ else
   fi
 fi
 
-# Install create-dmg
 if command -v create-dmg &>/dev/null; then
   echo "✅ create-dmg already installed"
 else
@@ -117,7 +104,6 @@ else
   brew install create-dmg
 fi
 
-# Check if the zsign directory already exists
 if [ -d "zsign" ]; then
   echo "📁 zsign directory already exists. Updating..."
   cd zsign
@@ -128,31 +114,26 @@ else
   git clone https://github.com/zhlynn/zsign.git
 fi
 
-# Compile zsign
 echo "🔨 Compiling zsign..."
 cd zsign/build/macos
 make clean && make
 cd ../../..
 
-# Copy zsign to the bin directory
 echo "📋 Installing zsign..."
 mkdir -p bin
 cp zsign/build/macos/zsign bin/
 echo "✅ zsign installed to ./bin/zsign"
 
-# Create resources structure
 mkdir -p resources/bin
 cp bin/zsign resources/bin/
 chmod +x resources/bin/zsign
 
-# Copy ideviceinstaller and dependencies to resources
 IDEVICEINSTALLER_PATH=$(which ideviceinstaller)
 if [ -n "$IDEVICEINSTALLER_PATH" ]; then
   cp "$IDEVICEINSTALLER_PATH" resources/bin/
   chmod +x resources/bin/ideviceinstaller
 fi
 
-# Copy libimobiledevice utilities
 for util in idevice_id ideviceinfo idevicename; do
   UTIL_PATH=$(which $util)
   if [ -n "$UTIL_PATH" ]; then
@@ -161,7 +142,6 @@ for util in idevice_id ideviceinfo idevicename; do
   fi
 done
 
-# Create app launcher script
 echo "📝 Creating app launcher script..."
 cat > app_launcher.py << 'EOF'
 #!/usr/bin/env python3
@@ -272,7 +252,6 @@ if __name__ == "__main__":
 EOF
 chmod +x app_launcher.py
 
-# Create app icon
 echo "🎨 Creating app icon..."
 mkdir -p app_icon.iconset
 if [ -f "assets/Icon.png" ]; then
@@ -358,11 +337,9 @@ print("Created default icon and iconset")
 EOF
 fi
 
-# Convert iconset to icns
 iconutil -c icns app_icon.iconset
 echo "✅ Created app_icon.icns"
 
-# Create PyInstaller spec file
 echo "📄 Creating PyInstaller spec file..."
 cat > NeoSigner.spec << 'EOF'
 # -*- mode: python ; coding: utf-8 -*-
@@ -443,7 +420,6 @@ echo "🚀 Do you want to build the NeoSigner app now? (y/n)"
 read -r build_now
 
 if [[ "$build_now" == "y" || "$build_now" == "Y" ]]; then
-  # Check if PyInstaller is installed
   if ! python3 -c "import PyInstaller" &>/dev/null; then
     echo "Installing PyInstaller..."
     pip3 install pyinstaller
@@ -460,7 +436,6 @@ if [[ "$build_now" == "y" || "$build_now" == "Y" ]]; then
     read -r create_dmg
     
     if [[ "$create_dmg" == "y" || "$create_dmg" == "Y" ]]; then
-      # Create DMG background
       echo "🎨 Creating DMG background..."
       python3 - << 'EOF'
 from PIL import Image, ImageDraw, ImageFont
@@ -506,7 +481,6 @@ background.save("dmg_background.png")
 print("Created DMG background image")
 EOF
       
-      # Create DMG
       echo "📀 Creating DMG installer..."
       mkdir -p dmg_contents
       cp -R dist/NeoSigner.app dmg_contents/
@@ -533,7 +507,6 @@ EOF
         echo "❌ Failed to create DMG installer"
       fi
       
-      # Clean up
       rm -rf dmg_contents
     fi
   else
@@ -544,11 +517,9 @@ else
   echo "   pyinstaller --clean NeoSigner.spec"
 fi
 
-# Add to PATH if not already there
 if [[ ":$PATH:" != *":$(pwd)/bin:"* ]]; then
   echo "📝 Adding bin directory to PATH in your shell profile..."
   
-  # Determine which shell profile to use
   SHELL_PROFILE=""
   if [[ "$SHELL" == *"zsh"* ]]; then
     SHELL_PROFILE="$HOME/.zshrc"
